@@ -2,21 +2,27 @@ package org.example;
 
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+import org.example.response.ChattingReaction;
+
+import java.util.EnumSet;
 
 public class DiscordBot {
 
     public static void main(String[] args) {
         BotTokenManager tokenManager = new BotTokenManager();
         String token = tokenManager.getDiscordBotToken();
+
+        EnumSet<GatewayIntent> intents = EnumSet.of(
+                GatewayIntent.GUILD_MESSAGES,
+                GatewayIntent.DIRECT_MESSAGES,
+                GatewayIntent.MESSAGE_CONTENT
+                );
+
         JDABuilder.createDefault(token)
-                .setActivity(Activity.competing("게임"))
-                .setActivity(Activity.playing("봇 만들기"))
-                .setActivity(Activity.playing("음악"))
-                .setActivity(Activity.streaming("방송","링크"))
-                .setActivity(Activity.watching("영화"))
-                .setActivity(Activity.customStatus("명령어 기다리는중..."))
+                .enableIntents(intents)
+                .setActivity(Activity.customStatus("명령어 기다리는 중..."))
+                .addEventListeners(new ChattingReaction())
                 .build();
-
     }
-
 }
