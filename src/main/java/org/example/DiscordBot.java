@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.example.response.ChattingReaction;
+import org.example.response.SlashCommandReaction;
 
 import java.util.EnumSet;
 
@@ -22,7 +23,9 @@ public class DiscordBot {
         JDABuilder.createDefault(token)
                 .enableIntents(intents)
                 .setActivity(Activity.customStatus("명령어 기다리는 중..."))
-                .addEventListeners(new ChattingReaction())
+                .addEventListeners(
+                        new ChattingReaction(),
+                        new SlashCommandReaction())
                 .build();
     }
 }
